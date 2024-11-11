@@ -1,8 +1,10 @@
 package com.elm.carshowrooms.service;
 
-
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.elm.carshowrooms.DTO.CarDTO;
 import com.elm.carshowrooms.model.Car;
@@ -53,5 +55,15 @@ public class CarService {
         return carDTO;
 
     }
+
+
+
+    public List<CarDTO> getAllCarsWithShowRoomDetails(String vin, String maker, String model, Integer model_year, Double price, Long carShowroomID, Pageable pageable) {
+        Page<Car> cars = carRepo.findCarsByAllParams(vin, maker, model, model_year, price, carShowroomID, pageable);
+        List<CarDTO> carsDTO = cars.stream().map(car -> new CarDTO(car)).toList();
+
+        return carsDTO;
+    }
+    
     
 }
