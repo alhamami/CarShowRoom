@@ -1,7 +1,9 @@
 package com.elm.carshowrooms.controller;
 
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,11 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.elm.carshowrooms.DTO.CarShowRoomDTO;
 import com.elm.carshowrooms.DTO.PaginatedCarShowroomDTO;
+import com.elm.carshowrooms.DTO.UpdateCarShowRoomDTO;
 import com.elm.carshowrooms.service.CarShowRoomService;
 
 import jakarta.validation.Valid;
@@ -61,5 +65,38 @@ public class CarShowRoomController {
         CarShowRoomDTO carShowRoom = carShowRoomService.getCarShowRoomById(id);
          return carShowRoom.getName() == null? ResponseEntity.notFound().build(): ResponseEntity.ok(carShowRoom);
     }
+
+    @PutMapping(value ="/{id}")
+    public ResponseEntity updateCarShowRoomById(@PathVariable("id") Long id, @RequestBody Map<String, Object> newCarShowRoom) {
+        
+        UpdateCarShowRoomDTO updateCarShowRoomDTO = new UpdateCarShowRoomDTO();
+
+        List<String> allowedFields = Arrays.asList("contact_number", "manager_name", "address");
+        for (String key : newCarShowRoom.keySet()) {
+            if (!allowedFields.contains(key)) {
+              
+                return ResponseEntity.badRequest().build();
+            }else{
+                
+                if (key.equalsIgnoreCase("contact_number" ) && newCarShowRoom.get(key) != null && newCarShowRoom.get(key).getClass() == int.class){
+                    updateCarShowRoomDTO.setContactNumber( (int) newCarShowRoom.get(key));
+                }
+                else if (key.equalsIgnoreCase("manager_name" ) && newCarShowRoom.get(key) != null && newCarShowRoom.get(key).getClass() == String.class){
+                    updateCarShowRoomDTO.setManagerName((String) newCarShowRoom.get(key) );
+                }
+                else if (key.equalsIgnoreCase("address" ) && newCarShowRoom.get(key) != null && newCarShowRoom.get(key).getClass() == String.class){
+                    updateCarShowRoomDTO.setAddress((String) newCarShowRoom.get(key));
+                }
+            }
+
+        }
+
+
+        carShowRoomService.updateCarShowRoom(id, updateCarShowRoomDTO);
+
+        return ResponseEntity.noContent().build();
+    }
+
+        
 }
 

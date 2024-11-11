@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.elm.carshowrooms.DTO.CarShowRoomDTO;
 import com.elm.carshowrooms.DTO.PaginatedCarShowroomDTO;
+import com.elm.carshowrooms.DTO.UpdateCarShowRoomDTO;
 import com.elm.carshowrooms.model.CarShowRoom;
 import com.elm.carshowrooms.repository.CarShowRoomRepo;
 
@@ -67,4 +68,41 @@ public class CarShowRoomService {
 
         return new CarShowRoomDTO(carShowRoom.getName(), carShowRoom.getCommercialRegistrationNumber(), carShowRoom.getManagerName(), carShowRoom.getContactNumber(), carShowRoom.getAddress());
     }
+
+
+    public CarShowRoomDTO updateCarShowRoom(Long id, UpdateCarShowRoomDTO newCarShowRoom) {
+        
+        CarShowRoom updatedCarShowRoom = carShowRoomRepo.findById(id)
+            .map(carShowRoom -> {
+
+                if(!carShowRoom.getIsDeleted()){
+
+                    if (newCarShowRoom.getContactNumber() != 0) { 
+                        carShowRoom.setContactNumber(newCarShowRoom.getContactNumber());
+                    }
+    
+                    if (!newCarShowRoom.getManagerName().equalsIgnoreCase("") && newCarShowRoom.getManagerName()!= null) {
+                        carShowRoom.setManagerName(newCarShowRoom.getManagerName());
+                    }
+                    
+                    if (!newCarShowRoom.getManagerName().equalsIgnoreCase("") && newCarShowRoom.getAddress() != null) {
+                        carShowRoom.setAddress(newCarShowRoom.getAddress());
+                    }
+                }
+
+                return carShowRoom;
+            })
+            .orElseGet(() -> {
+               
+                return new CarShowRoom(); 
+            }); 
+            
+
+        updatedCarShowRoom = carShowRoomRepo.save(updatedCarShowRoom);
+
+        return new CarShowRoomDTO(updatedCarShowRoom.getName(), updatedCarShowRoom.getCommercialRegistrationNumber(), updatedCarShowRoom.getManagerName(), updatedCarShowRoom.getContactNumber(), updatedCarShowRoom.getAddress());
+
+    }
+
+    
 }
