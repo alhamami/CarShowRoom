@@ -57,4 +57,14 @@ public class CarShowRoomService {
                 carShowRoom.getContactNumber()
         )).toList(); 
     }
+
+
+    public CarShowRoomDTO getCarShowRoomById(Long id) {
+        
+        CarShowRoom carShowRoom = carShowRoomRepo.findById(id)
+        .filter(showroom -> showroom.getIsDeleted() != true) 
+        .orElseGet(() -> { return new CarShowRoom(); }); 
+
+        return new CarShowRoomDTO(carShowRoom.getName(), carShowRoom.getCommercialRegistrationNumber(), carShowRoom.getManagerName(), carShowRoom.getContactNumber(), carShowRoom.getAddress());
+    }
 }
