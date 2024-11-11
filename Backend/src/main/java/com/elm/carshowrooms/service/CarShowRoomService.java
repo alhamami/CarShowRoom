@@ -104,5 +104,11 @@ public class CarShowRoomService {
 
     }
 
+    public void softDeleteCarShowRoom(Long id) {
+        CarShowRoom carShowRoom = carShowRoomRepo.findById(id).orElseGet(() -> {return new CarShowRoom();}); 
+        carShowRoom.setIsDeleted(true);
+        carShowRoomRepo.save(carShowRoom);
+    }
+
     
 }
