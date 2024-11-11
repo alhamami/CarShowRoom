@@ -40,49 +40,57 @@ The backend server should be accessible on `http://localhost:8080`.
 ### Car Showroom APIs
 
 - **Create Car Showroom**: `POST /showrooms`
-**Request Body Example**:
- ```json
-   {
-       "name": "Premium Motors",
-       "commercial_registration_number": "1548458843",
-       "manager_name": "Jalal Alhamami",
-       "contact_number": "966555555555",
-       "address": "Riyadh"
-   }
+
+  Request Body Example:
+  ```json
+    {
+        "name": "Premium Motors",
+        "commercial_registration_number": "1548458843",
+        "manager_name": "Jalal Alhamami",
+        "contact_number": "966555555555",
+        "address": "Riyadh"
+    }
 
 - **List Car Showrooms**: `GET /showrooms`
-Example URL: `/showrooms?page=0&size=5&sort=name,asc`
+
+  Example URL: `/showrooms?page=0&size=5&sort=name,asc`
 
 - **Get Car Showroom by ID**: `GET /showrooms/{id}`
-Example URL: `/showrooms/549844548`
+
+  Example URL: `/showrooms/549844548`
 
 - **Update Car Showroom**: `PUT /showrooms/{id}`
-Example URL: `/showrooms/549844548`
-**Request Body Example**:
- ```json
-   {
-    "contact_number": "966555555555",
-    "manager_name": "Jalal Alhamami",
-    "address": "Riyadh"
-   }
+
+  Example URL: `/showrooms/549844548`
+
+  Request Body Example:
+  ```json
+    {
+      "contact_number": "966555555555",
+      "manager_name": "Jalal Alhamami",
+      "address": "Riyadh"
+    }
 
 - **Delete Car Showroom**: `DELETE /showrooms/{id}` (soft delete)
-Example URL: `/showrooms/549844548`
+  
+  Example URL: `/showrooms/549844548`
 
 
 ### Car APIs
 
 - **Add Car to Showroom**: `POST /showrooms/{id}/cars`
-Example URL: `/showrooms/549844548/cars`
-**Request Body Example**:
- ```json
-   {
-      "vin": "1HGCM82633A123456",
-      "maker": "Honda",
-      "model": "Accord",
-      "model_year": 2021,
-      "price": 98500.91
-   }
+  
+  Example URL: `/showrooms/549844548/cars`
+  
+  Request Body Example:
+  ```json
+    {
+        "vin": "1HGCM82633A123456",
+        "maker": "Honda",
+        "model": "Accord",
+        "model_year": 2021,
+        "price": 98500.91
+    }
 
 
 - **List Cars with Showroom Details**: `GET /carsWithShowRoom`
