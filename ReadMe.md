@@ -95,7 +95,7 @@ The backend server should be accessible on `http://localhost:8080`.
 
 - **List Cars with Showroom Details**: `GET /carsWithShowRoom`
 
-Example URL: `/carsWithShowRoom?carShowRoom=549844548&maker=Honda&model=Accord&year=2021&page=0&limit=10`
+   Example URL: `/carsWithShowRoom?carShowRoom=549844548&maker=Honda&model=Accord&year=2021&page=0&limit=10`
 
 Refer to the Postman or Swagger documentation included for more details on request parameters and responses.
 
